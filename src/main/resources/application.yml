@@ -1,0 +1,135 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.0.11:3306/jdbc
+    driver-class-name: com.mysql.jdbc.Driver
+    # 默认请求下springboot会去classpath路径下去找 sechema-all.sql 文件执行，但是我们也可以使用schema指定文件
+    # schema:
+    #   - classpath:department.sql
+    #   - classpath:employee.sql
+    # 默认使用tomcat的连接池，但是我们也可以用 type来指定数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 因为使用了指定的数据源，而指定的数据源有很多自己的属性，这些属性 spirngboot 不知道的，因此关联不上，如果需要使用这些特殊的属性则需要自己写beanconfig创建数据源对象
+    #   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  # jpa相关配置
+  jpa:
+    hibernate:
+    # 根据实体类上的JPA注解 更新或者创建数据库表结构
+      ddl-auto: update
+      # 显示SQL
+    show-sql: true
+
+# mybatis相关配置
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+
+
+
+# springboot 有两种配置文件一种是 application.properties 一种是 application.yml文件
+# 基本语法
+# k:(空格)v   表示一对键值对，空格一定要有。
+# 属性和值都是大小写敏感的，默认字符串不需要加引号，
+# 双引号不能转义特殊字符，例如 "zhangsan \n lisi"  这样表示 zhangsan 然后换行 lisi
+# 单元号可以转义特殊字符，例如 'zhangsan \n lisi' 这样表示就表示一个普通字符 zhangsan \n lisi
+# 以空格的缩进来控制层级关系，只要是左对齐的一列数据都是同一层级的
+# xml文件中是这样
+#<server>
+#  <port>8082</port>
+#  <path>/xxxaction</path>
+#</server>
+#
+#在yml文件中是这样
+#server:
+# port: 8082
+# path: /xxxaction
+#
+#
+#
+#
+# 例如想修改端口 也可以在这里修改
+#server:
+#  port: 8082
+
+#对象、Map（属性和值）（键值对）
+#对象还是ke: v的方式 在下一行写对象的属性和值；之一缩进
+#friends:
+# lastName: zhangsan
+# age: 20
+#另外还有行内的写法，例如
+#friends: {lastName: zhangsan,age: 18}
+#
+#数组的写法(list 、set)
+#用- 值表示数组中的一个元素
+#pets:
+# - cat
+# - dog
+# - pig
+#行内的写法
+#pets: [cat,dog,pig]
+#
+#
+#
+
+person:
+ lastName: zhangsan
+ age: 20
+ boss: false
+ birth: 2017/12/12
+ maps: {k1: v1,k2: 12}
+ lists:
+  - lisi
+  - zhaoliu
+ dog:
+  name: 小狗
+  age: 2
+
+
+#
+#yml中的文档块模式, 使用---(三个横杆)来分割
+# spring:
+#      profiles: dev  表示dev环境
+#
+#spring:
+#   profiles:
+#     active: dev  表示使用dev环境的配置
+# 不在这里激活也可以，可以在 程序启动的时候指定程序参数 --srping.profiles.active=dev ,也可以通过加虚拟机参数 -Dspring.profiles.active=dev
+#
+#server:
+#  port: 8081
+#spring:
+ #profiles:
+ # active: prod
+
+#---
+
+#server:
+# port: 8082
+#spring:
+# profiles: dev
+
+#---
+#server:
+# port: 8083
+#spring:
+# profiles: prod
+
